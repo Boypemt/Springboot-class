@@ -1,16 +1,26 @@
 package th.mfu;
 
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+
 public class Book {
     private long id;
     private String title;
     private String author;
+    @JsonProperty("publish-year")
     private int year;
-    
-    public Book(long id, String title, String author, int year) {
+    private LocalDate addDate;
+
+    public Book(long id, String title, String author, int year, LocalDate addDate) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.year = year;
+        this.addDate = addDate;
     }
 
     public long getId() {
@@ -43,6 +53,16 @@ public class Book {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    @JsonSerialize(using = LocalDateSerializer.class)
+    public LocalDate getAddDate() {
+        return addDate;
+    }
+
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    public void setAddDate(LocalDate addDate) {
+        this.addDate = addDate;
     }
     
 }
