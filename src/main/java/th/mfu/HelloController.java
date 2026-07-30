@@ -10,9 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 
     @GetMapping("/hello/{name}")
-    String hello(@PathVariable String name) {
+    String hello(@PathVariable String name){ 
         return "Hello " + name + "!";
     }
 
+    @GetMapping("/hi")
+    String hi(){
+        return "Hi There!";
+    }
    
 }

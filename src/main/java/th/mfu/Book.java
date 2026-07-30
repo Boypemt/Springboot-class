@@ -2,25 +2,38 @@ package th.mfu;
 
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-
+@Entity
 public class Book {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String title;
     private String author;
     @JsonProperty("publish-year")
     private int year;
-    private LocalDate addDate;
+    private LocalDate addedDate;
 
-    public Book(long id, String title, String author, int year, LocalDate addDate) {
+    @ManyToOne
+    private Category category;
+
+    public Book() {
+    }
+
+    public Book(long id, String title, String author, int year) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.year = year;
-        this.addDate = addDate;
     }
 
     public long getId() {
@@ -56,13 +69,23 @@ public class Book {
     }
 
     @JsonSerialize(using = LocalDateSerializer.class)
-    public LocalDate getAddDate() {
-        return addDate;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    public LocalDate getAddedDate() {
+        return addedDate;
     }
 
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    public void setAddDate(LocalDate addDate) {
-        this.addDate = addDate;
+    public void setAddedDate(LocalDate addedDate) {
+        this.addedDate = addedDate;
     }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    
     
 }
